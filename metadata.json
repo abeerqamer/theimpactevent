@@ -1,0 +1,8 @@
+{
+  "name": "Impact Event Revamp",
+  "description": "A modern, high-performance event management dashboard featuring sophisticated input fields, bento-grid statistics, and a sleek multi-step wizard.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
