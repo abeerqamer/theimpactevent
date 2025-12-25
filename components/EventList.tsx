@@ -14,7 +14,7 @@ const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) =>
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">Events Portfolio</h1>
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">abeer portfolio</h1>
           <p className="text-slate-500 mt-1">Manage and curate your event experiences.</p>
         </div>
         <button 
