@@ -14,10 +14,10 @@ const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) =>
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">abeer portfolio</h1>
+          <h1 className="text-3xl font-bold text-slate-800 tracking-tight">All Events</h1>
           <p className="text-slate-500 mt-1">Manage and curate your event experiences.</p>
         </div>
-        <button 
+        <button
           onClick={onCreateNew}
           className="flex items-center gap-2 px-6 py-3 bg-[#5E7B98] text-white rounded-2xl font-semibold shadow-lg shadow-[#5E7B98]/20 hover:bg-[#4A627B] transition-all transform hover:-translate-y-0.5"
         >
@@ -28,7 +28,7 @@ const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) =>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {events.map((event) => (
-          <div 
+          <div
             key={event.id}
             onClick={() => onEdit(event)}
             className="group bg-white border border-slate-200 rounded-3xl p-6 hover:border-[#5E7B98] hover:shadow-2xl hover:shadow-[#5E7B98]/5 transition-all cursor-pointer relative"
@@ -47,7 +47,7 @@ const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) =>
             </div>
 
             <h3 className="text-xl font-bold text-slate-800 mb-2 group-hover:text-[#5E7B98] transition-colors">{event.name}</h3>
-            
+
             <div className="space-y-2 mb-6">
               <div className="flex items-center gap-2 text-sm text-slate-400">
                 <Calendar className="w-4 h-4" />
@@ -77,7 +77,7 @@ const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) =>
           </div>
         ))}
 
-        <div 
+        <div
           onClick={onCreateNew}
           className="group border-2 border-dashed border-slate-200 rounded-3xl p-6 flex flex-col items-center justify-center gap-4 text-slate-400 hover:border-[#5E7B98] hover:bg-[#5E7B98]/5 hover:text-[#5E7B98] transition-all cursor-pointer"
         >
