@@ -4,12 +4,13 @@ import Sidebar from './components/Sidebar';
 import Header from './components/Header';
 import Dashboard from './components/Dashboard';
 import EventList from './components/EventList';
+import EventDetails from './components/EventDetails';
 import EventWizard from './components/EventWizard';
 import { EventData } from './types';
 
 const App: React.FC = () => {
   const [activeView, setActiveView] = useState<'dashboard' | 'events'>('events');
-  const [isEditing, setIsEditing] = useState(false);
+  const [viewMode, setViewMode] = useState<'list' | 'details' | 'edit'>('list');
   const [events, setEvents] = useState<EventData[]>([
     {
       id: '1',
@@ -69,41 +70,67 @@ const App: React.FC = () => {
       status: false
     };
     setCurrentEvent(newEvent);
-    setIsEditing(true);
+    setViewMode('edit');
+  };
+
+  const handleView = (event: EventData) => {
+    setCurrentEvent(event);
+    setViewMode('details');
   };
 
   const handleEdit = (event: EventData) => {
     setCurrentEvent(event);
-    setIsEditing(true);
+    setViewMode('edit');
   };
 
   const handleSave = (updatedEvent: EventData) => {
-    setEvents(prev => prev.map(e => e.id === updatedEvent.id ? updatedEvent : e));
-    setIsEditing(false);
+    setEvents(prev => {
+      if (prev.find(e => e.id === updatedEvent.id)) {
+        return prev.map(e => e.id === updatedEvent.id ? updatedEvent : e);
+      } else {
+        return [...prev, updatedEvent];
+      }
+    });
+    setViewMode('details');
+  };
+
+  const handleCancelEdit = () => {
+    if (currentEvent && !events.find(e => e.id === currentEvent.id)) {
+      setViewMode('list');
+      setCurrentEvent(null);
+    } else {
+      setViewMode('details');
+    }
   };
 
   return (
     <div className="flex h-screen bg-[#F9FAFB] overflow-hidden">
-      <Sidebar activeView={activeView} setActiveView={(v) => { setActiveView(v); setIsEditing(false); }} />
-      
+      <Sidebar activeView={activeView} setActiveView={(v) => { setActiveView(v); setViewMode('list'); }} />
+
       <div className="flex-1 flex flex-col min-w-0">
         <Header activeView={activeView} eventName={currentEvent?.name || "Impact Event"} />
-        
+
         <main className="flex-1 overflow-y-auto custom-scrollbar p-6 lg:p-8">
           <div className="max-w-7xl mx-auto">
             {activeView === 'dashboard' ? (
               <Dashboard eventData={events[0]} />
-            ) : isEditing && currentEvent ? (
-              <EventWizard 
-                eventData={currentEvent} 
+            ) : viewMode === 'edit' && currentEvent ? (
+              <EventWizard
+                eventData={currentEvent}
                 onSave={handleSave}
-                onCancel={() => setIsEditing(false)}
+                onCancel={handleCancelEdit}
+              />
+            ) : viewMode === 'details' && currentEvent ? (
+              <EventDetails
+                event={currentEvent}
+                onBack={() => { setViewMode('list'); setCurrentEvent(null); }}
+                onEdit={() => setViewMode('edit')}
               />
             ) : (
-              <EventList 
-                events={events} 
-                onCreateNew={handleCreateNew} 
-                onEdit={handleEdit} 
+              <EventList
+                events={events}
+                onCreateNew={handleCreateNew}
+                onView={handleView}
               />
             )}
           </div>

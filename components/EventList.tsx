@@ -6,10 +6,10 @@ import { EventData } from '../types';
 interface EventListProps {
   events: EventData[];
   onCreateNew: () => void;
-  onEdit: (event: EventData) => void;
+  onView: (event: EventData) => void;
 }
 
-const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) => {
+const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onView }) => {
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
@@ -30,7 +30,7 @@ const EventList: React.FC<EventListProps> = ({ events, onCreateNew, onEdit }) =>
         {events.map((event) => (
           <div
             key={event.id}
-            onClick={() => onEdit(event)}
+            onClick={() => onView(event)}
             className="group bg-white border border-slate-200 rounded-3xl p-6 hover:border-[#5E7B98] hover:shadow-2xl hover:shadow-[#5E7B98]/5 transition-all cursor-pointer relative"
           >
             <div className="flex justify-between items-start mb-6">
