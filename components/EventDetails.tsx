@@ -2,7 +2,8 @@ import React from 'react';
 import {
     ArrowLeft, Edit3, Calendar, MapPin, Link as LinkIcon,
     Facebook, Instagram, Twitter, Linkedin, Users2,
-    ListTodo, PieChart, QrCode as QrIcon, Clock, User
+    ListTodo, PieChart, QrCode as QrIcon, Clock, User,
+    Share2, ChevronRight, Download
 } from 'lucide-react';
 import { EventData, SocialLinks } from '../types';
 
@@ -14,241 +15,190 @@ interface EventDetailsProps {
 
 const SocialIcon = ({ platform }: { platform: keyof SocialLinks }) => {
     switch (platform) {
-        case 'facebook': return <Facebook className="w-5 h-5" />;
-        case 'instagram': return <Instagram className="w-5 h-5" />;
-        case 'twitter': return <Twitter className="w-5 h-5" />;
-        case 'linkedin': return <Linkedin className="w-5 h-5" />;
-        default: return <LinkIcon className="w-5 h-5" />;
+        case 'facebook': return <Facebook className="w-4 h-4" />;
+        case 'instagram': return <Instagram className="w-4 h-4" />;
+        case 'twitter': return <Twitter className="w-4 h-4" />;
+        case 'linkedin': return <Linkedin className="w-4 h-4" />;
+        default: return <LinkIcon className="w-4 h-4" />;
     }
 };
 
 const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack, onEdit }) => {
     return (
-        <div className="space-y-8 animate-in fade-in duration-500 pb-20">
-            {/* Header */}
+        <div className="space-y-6 animate-in fade-in duration-500 pb-20">
+            {/* Navigation & Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                <div>
-                    <button
-                        onClick={onBack}
-                        className="flex items-center gap-2 text-slate-400 hover:text-[#5E7B98] transition-colors mb-4 font-semibold text-sm"
-                    >
-                        <ArrowLeft className="w-4 h-4" /> Back to Events
-                    </button>
-                    <div className="flex items-center gap-4">
-                        <h1 className="text-3xl font-black text-slate-800 tracking-tight">{event.name}</h1>
-                        <span className={`px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest ${event.status ? 'bg-emerald-100 text-emerald-700' : 'bg-slate-100 text-slate-500'
-                            }`}>
-                            {event.status ? 'Live' : 'Draft'}
-                        </span>
-                    </div>
-                </div>
                 <button
-                    onClick={onEdit}
-                    className="flex items-center gap-2 px-6 py-3 bg-[#5E7B98] text-white rounded-2xl font-bold shadow-lg shadow-[#5E7B98]/20 hover:bg-[#4A627B] transition-all"
+                    onClick={onBack}
+                    className="group flex items-center gap-2 text-slate-400 hover:text-slate-800 transition-colors px-2"
                 >
-                    <Edit3 className="w-5 h-5" /> Edit Event
+                    <div className="p-2 bg-white rounded-xl shadow-sm border border-slate-100 group-hover:border-[#5E7B98]/30 transition-all">
+                        <ArrowLeft className="w-4 h-4" />
+                    </div>
+                    <span className="font-bold text-sm">Back to Dashboard</span>
                 </button>
+
+                <div className="flex items-center gap-3">
+                    <button className="px-5 py-2.5 bg-white text-slate-600 rounded-xl font-bold border border-slate-200 hover:bg-slate-50 transition-all flex items-center gap-2 text-sm shadow-sm">
+                        <Share2 className="w-4 h-4" /> Share
+                    </button>
+                    <button
+                        onClick={onEdit}
+                        className="px-5 py-2.5 bg-[#5E7B98] text-white rounded-xl font-bold shadow-lg shadow-[#5E7B98]/20 hover:bg-[#4A627B] transition-all flex items-center gap-2 text-sm"
+                    >
+                        <Edit3 className="w-4 h-4" /> Edit Event
+                    </button>
+                </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Main Content Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
-                {/* Left Column - Basics & Socials */}
-                <div className="space-y-8 lg:col-span-2">
+                {/* Left Column: Event Hero & Key Info (8 cols) */}
+                <div className="lg:col-span-8 space-y-6">
 
-                    {/* Basics Card */}
-                    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
-                        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <span className="w-2 h-8 bg-[#5E7B98] rounded-full"></span>
-                            Event Basics
-                        </h2>
+                    {/* Hero Card */}
+                    <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm relative overflow-hidden group">
+                        <div className="absolute top-0 right-0 w-64 h-64 bg-[#5E7B98]/5 rounded-bl-[100%] -mr-16 -mt-16 transition-transform group-hover:scale-110 duration-700"></div>
 
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                            <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-2xl">
-                                <div className="p-3 bg-white rounded-xl shadow-sm text-[#5E7B98]">
-                                    <Calendar className="w-6 h-6" />
+                        <div className="relative z-10">
+                            <div className="flex items-start justify-between mb-6">
+                                <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest ${event.status ? 'bg-emerald-100/50 text-emerald-700 border border-emerald-100' : 'bg-slate-100 text-slate-500 border border-slate-200'
+                                    }`}>
+                                    {event.status ? '● Live Event' : '○ Draft Mode'}
+                                </span>
+                                {event.logo && <img src={event.logo} alt="Logo" className="w-12 h-12 rounded-xl object-cover shadow-sm" />}
+                            </div>
+
+                            <h1 className="text-4xl font-black text-slate-800 tracking-tight mb-4 leading-tight">{event.name}</h1>
+
+                            <div className="flex flex-wrap gap-4 text-sm font-medium text-slate-500 mb-8">
+                                <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                    <Calendar className="w-4 h-4 text-[#5E7B98]" />
+                                    <span>{event.date ? new Date(event.date).toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }) : 'Date TBD'}</span>
                                 </div>
-                                <div>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Date & Time</p>
-                                    <p className="font-semibold text-slate-700">
-                                        {event.date ? new Date(event.date).toLocaleString(undefined, {
-                                            weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                                        }) : 'TBD'}
+                                <div className="flex items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-100">
+                                    <MapPin className="w-4 h-4 text-[#5E7B98]" />
+                                    <span>{event.location || 'Location TBD'}</span>
+                                </div>
+                            </div>
+
+                            <div className="prose prose-slate prose-sm max-w-none">
+                                <p className="text-slate-600 leading-relaxed opacity-90">{event.description || 'No description provided for this event yet.'}</p>
+                            </div>
+
+                            {Object.keys(event.socialLinks).some(k => event.socialLinks[k as keyof SocialLinks]) && (
+                                <div className="flex gap-3 mt-8 pt-8 border-t border-slate-100">
+                                    {Object.entries(event.socialLinks).map(([platform, url]) => (
+                                        url && (
+                                            <a
+                                                key={platform}
+                                                href={url}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="w-10 h-10 flex items-center justify-center rounded-xl bg-slate-50 text-slate-400 hover:bg-[#5E7B98] hover:text-white transition-all hover:-translate-y-1 hover:shadow-lg hover:shadow-[#5E7B98]/20"
+                                                title={platform}
+                                            >
+                                                <SocialIcon platform={platform as keyof SocialLinks} />
+                                            </a>
+                                        )
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    {/* Itinerary Timeline */}
+                    <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
+                        <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
+                            <Clock className="w-5 h-5 text-[#5E7B98]" /> Schedule
+                        </h2>
+                        <div className="relative pl-4 space-y-8 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
+                            {event.itinerary.map((session, idx) => (
+                                <div key={session.id || idx} className="relative pl-8 group">
+                                    <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-white bg-[#5E7B98] shadow-sm z-10 group-hover:scale-125 transition-transform"></div>
+                                    <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6 mb-2">
+                                        <span className="text-xs font-bold text-[#5E7B98] bg-[#5E7B98]/5 px-2 py-1 rounded-md whitespace-nowrap">
+                                            {session.startTime} - {session.endTime}
+                                        </span>
+                                        <h3 className="font-bold text-slate-800">{session.title}</h3>
+                                    </div>
+                                    {session.speaker && (
+                                        <div className="flex items-center gap-2 text-xs text-slate-500 mb-2 ml-[88px] sm:ml-0">
+                                            <User className="w-3 h-3" /> <span className="font-medium">{session.speaker}</span>
+                                        </div>
+                                    )}
+                                    <p className="text-sm text-slate-500 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100/50">
+                                        {session.description}
                                     </p>
                                 </div>
-                            </div>
-
-                            <div className="flex items-start gap-4 p-4 bg-slate-50 rounded-2xl">
-                                <div className="p-3 bg-white rounded-xl shadow-sm text-[#5E7B98]">
-                                    <MapPin className="w-6 h-6" />
-                                </div>
-                                <div>
-                                    <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Location</p>
-                                    <p className="font-semibold text-slate-700">{event.location || 'TBD'}</p>
-                                </div>
-                            </div>
+                            ))}
+                            {event.itinerary.length === 0 && (
+                                <p className="pl-8 text-slate-400 text-sm italic">No sessions added yet.</p>
+                            )}
                         </div>
-
-                        <div className="p-6 bg-slate-50 rounded-2xl">
-                            <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Description</p>
-                            <p className="text-slate-600 leading-relaxed whitespace-pre-wrap">{event.description || 'No description provided.'}</p>
-                        </div>
-
-                        {Object.keys(event.socialLinks).length > 0 && (
-                            <div className="flex flex-wrap gap-3 pt-2">
-                                {Object.entries(event.socialLinks).map(([platform, url]) => (
-                                    url && (
-                                        <a
-                                            key={platform}
-                                            href={url}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="flex items-center gap-2 px-4 py-2 bg-slate-50 text-slate-600 rounded-xl hover:bg-[#5E7B98] hover:text-white transition-all font-semibold text-sm"
-                                        >
-                                            <SocialIcon platform={platform as keyof SocialLinks} />
-                                            <span className="capitalize">{platform}</span>
-                                        </a>
-                                    )
-                                ))}
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Itinerary */}
-                    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
-                        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <span className="w-2 h-8 bg-[#5E7B98] rounded-full"></span>
-                            Itinerary
-                        </h2>
-
-                        {event.itinerary.length > 0 ? (
-                            <div className="space-y-4">
-                                {event.itinerary.map((session, idx) => (
-                                    <div key={session.id || idx} className="flex gap-4 p-4 border border-slate-100 rounded-2xl hover:border-[#5E7B98]/30 transition-colors">
-                                        <div className="flex flex-col items-center justify-center w-20 bg-slate-50 rounded-xl p-2 text-center">
-                                            <Clock className="w-4 h-4 text-[#5E7B98] mb-1" />
-                                            <span className="text-xs font-bold text-slate-700">{session.startTime}</span>
-                                            <span className="text-[10px] text-slate-400 gap-0.5 flex flex-col items-center">
-                                                <div className="w-0.5 h-2 bg-slate-200 my-0.5"></div>
-                                                {session.endTime}
-                                            </span>
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-bold text-slate-800 mb-1">{session.title}</h3>
-                                            {session.speaker && (
-                                                <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
-                                                    <User className="w-3 h-3" />
-                                                    <span>{session.speaker}</span>
-                                                </div>
-                                            )}
-                                            <p className="text-sm text-slate-500">{session.description}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-slate-400 italic">No sessions scheduled.</p>
-                        )}
-                    </div>
-
-                    {/* Sponsors */}
-                    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
-                        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <span className="w-2 h-8 bg-[#5E7B98] rounded-full"></span>
-                            Sponsors
-                        </h2>
-
-                        {event.sponsors.length > 0 ? (
-                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                                {event.sponsors.map((sponsor, idx) => (
-                                    <div key={sponsor.id || idx} className="p-6 border border-slate-100 rounded-2xl flex flex-col gap-4 hover:shadow-md transition-shadow">
-                                        <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 bg-slate-50 rounded-xl flex items-center justify-center text-slate-300">
-                                                {sponsor.logo ? <img src={sponsor.logo} className="w-full h-full object-cover rounded-xl" alt="" /> : <Users2 className="w-6 h-6" />}
-                                            </div>
-                                            <div>
-                                                <h4 className="font-bold text-slate-800">{sponsor.name}</h4>
-                                                {sponsor.website && (
-                                                    <a href={sponsor.website} target="_blank" rel="noreferrer" className="text-xs text-[#5E7B98] hover:underline flex items-center gap-1">
-                                                        <LinkIcon className="w-3 h-3" /> Website
-                                                    </a>
-                                                )}
-                                            </div>
-                                        </div>
-                                        <p className="text-sm text-slate-500">{sponsor.description}</p>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-slate-400 italic">No sponsors added.</p>
-                        )}
                     </div>
 
                 </div>
 
-                {/* Right Column - Interaction & QR */}
-                <div className="space-y-8">
+                {/* Right Column: Key Metrics & QR (4 cols) */}
+                <div className="lg:col-span-4 space-y-6">
 
-                    {/* QR Code */}
-                    <div className="bg-[#5E7B98] p-8 rounded-[2.5rem] text-white shadow-xl shadow-[#5E7B98]/20 relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-bl-full -mr-10 -mt-10"></div>
-
-                        <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                            <QrIcon className="w-6 h-6" /> Event Access
-                        </h2>
-
-                        <div className="bg-white p-4 rounded-3xl mb-6 w-full aspect-square flex items-center justify-center">
-                            <QrIcon className="w-full h-full text-slate-800" />
+                    {/* QR Code - Smaller & Compact */}
+                    <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm flex flex-col items-center text-center">
+                        <div className="bg-white p-2 border-2 border-dashed border-slate-200 rounded-2xl mb-4 shadow-inner">
+                            <QrIcon className="w-24 h-24 text-slate-800" />
                         </div>
-
-                        <button className="w-full py-3 bg-white text-[#5E7B98] rounded-xl font-bold hover:bg-slate-50 transition-colors">
-                            Download QR Code
-                        </button>
+                        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Event Access Code</p>
+                        <div className="flex gap-2 w-full">
+                            <button className="flex-1 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold hover:bg-slate-800 transition-colors flex items-center justify-center gap-2">
+                                <Download className="w-3 h-3" /> Save
+                            </button>
+                            <button className="px-3 py-2 bg-slate-50 text-slate-600 rounded-xl hover:bg-slate-100 border border-slate-200">
+                                <LinkIcon className="w-4 h-4" />
+                            </button>
+                        </div>
                     </div>
 
-                    {/* Survey & Polls Summary */}
-                    <div className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-sm space-y-6">
-                        <h2 className="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <span className="w-2 h-8 bg-[#5E7B98] rounded-full"></span>
-                            Engagement
-                        </h2>
-
-                        <div className="space-y-4">
-                            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-white rounded-lg text-[#5E7B98]">
-                                        <ListTodo className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <span className="block font-bold text-slate-700">Surveys</span>
-                                        <span className="text-xs text-slate-400">{event.survey.length} Questions</span>
-                                    </div>
-                                </div>
+                    {/* Metrics Grid */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div className="bg-emerald-50/50 p-5 rounded-[1.5rem] border border-emerald-100 transition-all hover:-translate-y-1">
+                            <div className="w-8 h-8 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mb-3">
+                                <ListTodo className="w-4 h-4" />
                             </div>
-
-                            <div className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl">
-                                <div className="flex items-center gap-3">
-                                    <div className="p-2 bg-white rounded-lg text-[#5E7B98]">
-                                        <PieChart className="w-5 h-5" />
-                                    </div>
-                                    <div>
-                                        <span className="block font-bold text-slate-700">Polls</span>
-                                        <span className="text-xs text-slate-400">{event.polls.length} Active Polls</span>
-                                    </div>
-                                </div>
-                            </div>
+                            <span className="text-2xl font-black text-slate-800 block mb-1">{event.survey.length}</span>
+                            <span className="text-[10px] uppercase font-bold text-emerald-700 tracking-wide">Surveys</span>
                         </div>
-
-                        {event.survey.length > 0 && (
-                            <div className="mt-4 pt-4 border-t border-slate-100">
-                                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-3">Survey Preview</p>
-                                <div className="space-y-2">
-                                    {event.survey.slice(0, 3).map((q, i) => (
-                                        <p key={i} className="text-sm text-slate-600 truncate">• {q.question}</p>
-                                    ))}
-                                    {event.survey.length > 3 && <p className="text-xs text-slate-400 italic">+ {event.survey.length - 3} more</p>}
-                                </div>
+                        <div className="bg-amber-50/50 p-5 rounded-[1.5rem] border border-amber-100 transition-all hover:-translate-y-1">
+                            <div className="w-8 h-8 bg-amber-100 text-amber-600 rounded-full flex items-center justify-center mb-3">
+                                <PieChart className="w-4 h-4" />
                             </div>
-                        )}
+                            <span className="text-2xl font-black text-slate-800 block mb-1">{event.polls.length}</span>
+                            <span className="text-[10px] uppercase font-bold text-amber-700 tracking-wide">Active Polls</span>
+                        </div>
+                    </div>
+
+                    {/* Sponsors List */}
+                    <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm max-h-[400px] overflow-y-auto custom-scrollbar">
+                        <div className="flex items-center justify-between mb-4">
+                            <h3 className="font-bold text-slate-800 text-sm">Sponsors ({event.sponsors.length})</h3>
+                            <button className="text-[10px] font-bold text-[#5E7B98] hover:underline">Manage</button>
+                        </div>
+                        <div className="space-y-3">
+                            {event.sponsors.map((sponsor, idx) => (
+                                <div key={sponsor.id || idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-[#5E7B98]/30 transition-colors group cursor-default">
+                                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-slate-300 shadow-sm">
+                                        {sponsor.logo ? <img src={sponsor.logo} className="w-full h-full object-cover rounded-lg" alt="" /> : <Users2 className="w-4 h-4" />}
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-slate-800 text-sm truncate">{sponsor.name}</p>
+                                        <p className="text-[10px] text-slate-400 truncate">{sponsor.website || 'No website'}</p>
+                                    </div>
+                                    {sponsor.website && <a href={sponsor.website} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-[#5E7B98]"><LinkIcon className="w-3 h-3" /></a>}
+                                </div>
+                            ))}
+                            {event.sponsors.length === 0 && <p className="text-xs text-slate-400 text-center py-4">No sponsors yet.</p>}
+                        </div>
                     </div>
 
                 </div>
