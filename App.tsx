@@ -49,8 +49,8 @@ const App: React.FC = () => {
           socialLinks: { instagram: 'https://instagram.com/urbanbuild' }
         }
       ],
-      survey: [{ id: '1', question: 'How was the keynote?', type: 'Text', required: true }],
-      polls: [{ id: '1', question: 'Best innovation of the night?', options: ['AI', 'Green Energy', 'Biotech'] }],
+      survey: [{ id: '1', question: 'How was the keynote?', type: 'Text', required: true, responseCount: 124 }],
+      polls: [{ id: '1', question: 'Best innovation of the night?', options: ['AI', 'Green Energy', 'Biotech'], votes: [45, 30, 25] }],
       status: true
     },
     {

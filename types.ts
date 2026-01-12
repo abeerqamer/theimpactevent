@@ -46,11 +46,13 @@ export interface EventData {
     question: string;
     type: 'Text' | 'Multiple Choice';
     required: boolean;
+    responseCount?: number;
   }>;
   polls: Array<{
     id: string;
     question: string;
     options: string[];
+    votes?: number[];
     media?: string;
   }>;
   status: boolean;
