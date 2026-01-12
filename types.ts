@@ -31,6 +31,7 @@ export interface EventData {
     endTime: string;
     speaker: string;
     description: string;
+    location?: string;
   }>;
   sponsors: Array<{
     id: string;
@@ -38,6 +39,7 @@ export interface EventData {
     website: string;
     description: string;
     logo?: string;
+    socialLinks?: SocialLinks;
   }>;
   survey: Array<{
     id: string;

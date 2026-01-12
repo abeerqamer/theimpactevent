@@ -14,15 +14,43 @@ const App: React.FC = () => {
   const [events, setEvents] = useState<EventData[]>([
     {
       id: '1',
-      name: 'Barclays Business Breakfast',
-      date: '2025-10-23T08:50',
-      location: 'Racquet Club',
-      description: 'A morning of networking and business insights.',
-      socialLinks: { facebook: 'https://fb.com/barclays', instagram: '@barclays_biz' },
-      itinerary: [{ id: '1', title: 'Introduction', startTime: '08:00', endTime: '09:00', speaker: 'Omer Motiwala', description: 'Opening remarks.' }],
-      sponsors: [{ id: '1', name: 'Axel', website: 'https://axel.com', description: 'Tech partner.' }],
-      survey: [{ id: '1', question: 'Rate the coffee', type: 'Text', required: true }],
-      polls: [{ id: '1', question: 'Enjoying the talk?', options: ['Yes', 'No'] }],
+      name: 'Innovation In Business Awards 2025',
+      date: '2025-10-23T18:00',
+      location: 'Grand Hotel Atrium',
+      description: 'Celebrating excellence in sustainable business practices and future innovations.',
+      socialLinks: { facebook: 'https://fb.com/innovation', instagram: '@innovation_awards', twitter: '@innovation_biz', linkedin: 'company/innovation-awards' },
+      itinerary: [
+        { id: '1', title: 'Reception', startTime: '18:00', endTime: '18:30', speaker: '', description: 'Welcome drinks and registration.', location: 'Atrium' },
+        { id: '2', title: 'Keynote: Future of Green', startTime: '18:00', endTime: '18:30', speaker: 'Dr. Emily Green', description: 'Insights into sustainable future tech.', location: 'Atrium' },
+        { id: '3', title: 'Awards Ceremony', startTime: '18:00', endTime: '18:30', speaker: '', description: 'Honoring the best in business.', location: 'Atrium' },
+        { id: '4', title: 'Networking', startTime: '18:00', endTime: '18:30', speaker: '', description: 'Connect with industry leaders.', location: 'Atrium' },
+        { id: '5', title: 'Dinner', startTime: '18:00', endTime: '18:30', speaker: '', description: 'Gala dinner and closing remarks.', location: 'Atrium' }
+      ],
+      sponsors: [
+        {
+          id: '1',
+          name: 'TechFlow Solutions',
+          website: 'https://techflow.example.com',
+          description: 'Leading provider of enterprise AI solutions.',
+          socialLinks: { linkedin: 'https://linkedin.com/company/techflow', twitter: 'https://twitter.com/techflow' }
+        },
+        {
+          id: '2',
+          name: 'GreenEarth Energy',
+          website: 'https://greenearth.example.com',
+          description: 'Sustainable energy primarily for large scale grids.',
+          socialLinks: { linkedin: 'https://linkedin.com/company/greenearth', facebook: 'https://fb.com/greenearth' }
+        },
+        {
+          id: '3',
+          name: 'Urban Build',
+          website: 'https://urbanbuild.example.com',
+          description: 'Next-gen construction materials.',
+          socialLinks: { instagram: 'https://instagram.com/urbanbuild' }
+        }
+      ],
+      survey: [{ id: '1', question: 'How was the keynote?', type: 'Text', required: true }],
+      polls: [{ id: '1', question: 'Best innovation of the night?', options: ['AI', 'Green Energy', 'Biotech'] }],
       status: true
     },
     {

@@ -117,20 +117,29 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack, onEdit }) =>
                             {event.itinerary.map((session, idx) => (
                                 <div key={session.id || idx} className="relative pl-8 group">
                                     <div className="absolute left-0 top-1.5 w-4 h-4 rounded-full border-2 border-white bg-[#5E7B98] shadow-sm z-10 group-hover:scale-125 transition-transform"></div>
-                                    <div className="flex flex-col sm:flex-row sm:items-start gap-2 sm:gap-6 mb-2">
-                                        <span className="text-xs font-bold text-[#5E7B98] bg-[#5E7B98]/5 px-2 py-1 rounded-md whitespace-nowrap">
-                                            {session.startTime} - {session.endTime}
-                                        </span>
-                                        <h3 className="font-bold text-slate-800">{session.title}</h3>
+                                    <div className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-4 mb-1">
+                                        <h3 className="font-bold text-slate-800 text-lg">{session.title}</h3>
                                     </div>
+                                    <div className="flex items-center gap-2 text-sm text-slate-500 font-medium mb-3">
+                                        <span>{session.startTime} - {session.endTime}</span>
+                                        {session.location && (
+                                            <>
+                                                <span>•</span>
+                                                <span>{session.location}</span>
+                                            </>
+                                        )}
+                                    </div>
+
                                     {session.speaker && (
-                                        <div className="flex items-center gap-2 text-xs text-slate-500 mb-2 ml-[88px] sm:ml-0">
+                                        <div className="flex items-center gap-2 text-xs text-slate-500 mb-2">
                                             <User className="w-3 h-3" /> <span className="font-medium">{session.speaker}</span>
                                         </div>
                                     )}
-                                    <p className="text-sm text-slate-500 leading-relaxed bg-slate-50 p-4 rounded-xl border border-slate-100/50">
-                                        {session.description}
-                                    </p>
+                                    {session.description && (
+                                        <p className="text-sm text-slate-500 leading-relaxed">
+                                            {session.description}
+                                        </p>
+                                    )}
                                 </div>
                             ))}
                             {event.itinerary.length === 0 && (
@@ -186,15 +195,41 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack, onEdit }) =>
                         </div>
                         <div className="space-y-3">
                             {event.sponsors.map((sponsor, idx) => (
-                                <div key={sponsor.id || idx} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl border border-slate-100 hover:border-[#5E7B98]/30 transition-colors group cursor-default">
-                                    <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-slate-300 shadow-sm">
-                                        {sponsor.logo ? <img src={sponsor.logo} className="w-full h-full object-cover rounded-lg" alt="" /> : <Users2 className="w-4 h-4" />}
+                                <div key={sponsor.id || idx} className="flex flex-col p-4 bg-slate-50 rounded-xl border border-slate-100 hover:border-[#5E7B98]/30 transition-all group hover:bg-white hover:shadow-md">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center text-slate-300 shadow-sm shrink-0 overflow-hidden">
+                                            {sponsor.logo ? <img src={sponsor.logo} className="w-full h-full object-cover" alt="" /> : <Users2 className="w-5 h-5" />}
+                                        </div>
+                                        <div className="flex-1 min-w-0">
+                                            <h4 className="font-bold text-slate-800 text-base truncate">{sponsor.name}</h4>
+                                            <p className="text-xs text-slate-500 line-clamp-2 mt-1 mb-2">{sponsor.description}</p>
+
+                                            <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-200/50">
+                                                <a href={sponsor.website} target="_blank" rel="noreferrer" className="text-xs font-bold text-[#5E7B98] hover:underline truncate max-w-[120px]">
+                                                    {sponsor.website.replace(/^https?:\/\//, '')}
+                                                </a>
+
+                                                {sponsor.socialLinks && (
+                                                    <div className="flex items-center gap-2">
+                                                        {Object.entries(sponsor.socialLinks).map(([platform, url]) => (
+                                                            url && (
+                                                                <a
+                                                                    key={platform}
+                                                                    href={url}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                    className="w-6 h-6 flex items-center justify-center rounded-full bg-white text-slate-400 hover:bg-[#5E7B98] hover:text-white transition-all shadow-sm"
+                                                                    title={platform}
+                                                                >
+                                                                    <SocialIcon platform={platform as keyof SocialLinks} />
+                                                                </a>
+                                                            )
+                                                        ))}
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div className="flex-1 min-w-0">
-                                        <p className="font-bold text-slate-800 text-sm truncate">{sponsor.name}</p>
-                                        <p className="text-[10px] text-slate-400 truncate">{sponsor.website || 'No website'}</p>
-                                    </div>
-                                    {sponsor.website && <a href={sponsor.website} target="_blank" rel="noreferrer" className="opacity-0 group-hover:opacity-100 p-1.5 text-slate-400 hover:text-[#5E7B98]"><LinkIcon className="w-3 h-3" /></a>}
                                 </div>
                             ))}
                             {event.sponsors.length === 0 && <p className="text-xs text-slate-400 text-center py-4">No sponsors yet.</p>}
