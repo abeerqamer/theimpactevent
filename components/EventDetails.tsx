@@ -111,7 +111,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack, onEdit }) =>
                     {/* Itinerary Timeline */}
                     <div className="bg-white p-8 rounded-[2rem] border border-slate-100 shadow-sm">
                         <h2 className="text-lg font-bold text-slate-800 mb-6 flex items-center gap-2">
-                            <Clock className="w-5 h-5 text-[#5E7B98]" /> Schedule
+                            <Clock className="w-5 h-5 text-[#5E7B98]" /> Itinerary
                         </h2>
                         <div className="relative pl-4 space-y-8 before:absolute before:left-2 before:top-2 before:bottom-2 before:w-0.5 before:bg-slate-100">
                             {event.itinerary.map((session, idx) => (
@@ -188,7 +188,7 @@ const EventDetails: React.FC<EventDetailsProps> = ({ event, onBack, onEdit }) =>
                     </div>
 
                     {/* Sponsors List */}
-                    <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm max-h-[400px] overflow-y-auto custom-scrollbar">
+                    <div className="bg-white p-6 rounded-[2rem] border border-slate-100 shadow-sm">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-bold text-slate-800 text-sm">Sponsors ({event.sponsors.length})</h3>
                             <button className="text-[10px] font-bold text-[#5E7B98] hover:underline">Manage</button>
